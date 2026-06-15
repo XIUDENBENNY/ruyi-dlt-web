@@ -552,9 +552,21 @@
 
     document.getElementById("copyBtn").addEventListener("click", async () => {
       const text = document.getElementById("copyText").value;
-      await navigator.clipboard.writeText(text);
-      document.getElementById("copyBtn").textContent = "已复制";
-      setTimeout(() => document.getElementById("copyBtn").textContent = "复制结果", 1200);
+      const btn = document.getElementById("copyBtn");
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const area = document.getElementById("copyText");
+          area.focus();
+          area.select();
+          document.execCommand("copy");
+        }
+        btn.textContent = "已复制";
+      } catch (err) {
+        btn.textContent = "请手动复制";
+      }
+      setTimeout(() => btn.textContent = "复制结果", 1200);
     });
 
     document.getElementById("issueSearch").addEventListener("input", renderHistory);
