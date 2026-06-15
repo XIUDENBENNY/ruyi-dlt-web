@@ -139,18 +139,27 @@ def write_outputs(records: list[dict[str, object]], source: str) -> None:
     PAGES_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     with ROOT_CSV.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDS)
+        writer = csv.DictWriter(handle, fieldnames=FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(records)
 
     with PAGES_CSV.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDS)
+        writer = csv.DictWriter(handle, fieldnames=FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(records)
 
     latest = records[-1]
+    generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    if PAGES_JSON.exists():
+        try:
+            old_payload = json.loads(PAGES_JSON.read_text(encoding="utf-8"))
+            if old_payload.get("records") == records:
+                generated_at = old_payload.get("generated_at", generated_at)
+        except Exception:
+            pass
+
     payload = {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generated_at": generated_at,
         "source": source,
         "source_url": SOURCE_URL,
         "count": len(records),
