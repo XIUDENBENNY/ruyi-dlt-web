@@ -7,33 +7,39 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f6f7fb;
+      --bg: #f3f6fb;
       --panel: #ffffff;
       --text: #172033;
       --muted: #667085;
       --line: #d9dee8;
       --red: #d92d20;
       --blue: #1570ef;
-      --brand: #246bfe;
+      --brand: #1d4ed8;
+      --brand2: #b42318;
       --soft: #eef4ff;
       --ok: #067647;
       --warn: #b54708;
+      --shadow: 0 14px 34px rgba(23, 32, 51, .08);
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 12% -8%, rgba(217, 45, 32, .12), transparent 34%),
+        radial-gradient(circle at 92% 0%, rgba(21, 112, 239, .14), transparent 32%),
+        linear-gradient(180deg, #eef3fb 0, var(--bg) 280px);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
       line-height: 1.5;
     }
     header {
-      background: var(--panel);
-      border-bottom: 1px solid var(--line);
-      padding: 18px 20px;
+      background: linear-gradient(135deg, #111827 0%, #1d4ed8 58%, #b42318 120%);
+      border-bottom: 0;
+      padding: 22px 20px 18px;
       position: sticky;
       top: 0;
       z-index: 10;
+      box-shadow: 0 12px 28px rgba(17, 24, 39, .16);
     }
     .wrap { max-width: 1180px; margin: 0 auto; }
     .title {
@@ -42,8 +48,8 @@
       align-items: baseline;
       flex-wrap: wrap;
     }
-    h1 { margin: 0; font-size: 26px; }
-    .sub { color: var(--muted); font-size: 14px; }
+    h1 { margin: 0; font-size: 28px; color: #fff; letter-spacing: .02em; }
+    .sub { color: rgba(255,255,255,.76); font-size: 14px; }
     nav {
       display: flex;
       gap: 8px;
@@ -63,9 +69,19 @@
       font-weight: 650;
     }
     button.primary, nav button.active {
-      background: var(--brand);
-      border-color: var(--brand);
+      background: linear-gradient(135deg, var(--brand), #2563eb);
+      border-color: transparent;
       color: #fff;
+    }
+    nav button {
+      background: rgba(255,255,255,.13);
+      border-color: rgba(255,255,255,.24);
+      color: rgba(255,255,255,.86);
+    }
+    nav button.active {
+      background: #fff;
+      color: #17346d;
+      box-shadow: 0 8px 20px rgba(0,0,0,.16);
     }
     main { padding: 22px 20px 40px; }
     section { display: none; }
@@ -79,6 +95,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 16px;
+      box-shadow: var(--shadow);
     }
     .metric .label { color: var(--muted); font-size: 13px; }
     .metric .value { font-size: 23px; font-weight: 800; margin-top: 4px; }
@@ -90,6 +107,46 @@
       padding: 12px 14px;
       color: #183b78;
     }
+    .data-console {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      border-top: 4px solid var(--brand);
+    }
+    .eyebrow {
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      margin-bottom: 4px;
+    }
+    #status {
+      font-size: 15px;
+      color: #1f2937;
+    }
+    #updateMsg {
+      margin-top: 5px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .data-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .file-btn {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-weight: 650;
+    }
+    .file-btn input { display: none; }
     .toolbar {
       display: flex;
       gap: 10px;
@@ -105,8 +162,8 @@
     }
     .ball {
       display: inline-flex;
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       align-items: center;
       justify-content: center;
@@ -114,14 +171,18 @@
       font-weight: 800;
       margin: 2px;
       font-variant-numeric: tabular-nums;
+      box-shadow: inset 0 -4px 8px rgba(0,0,0,.18), 0 6px 12px rgba(17,24,39,.12);
     }
-    .ball.red { background: var(--red); }
-    .ball.blue { background: var(--blue); }
+    .ball.red { background: radial-gradient(circle at 32% 24%, #ffb4ac, var(--red) 46%, #981b14); }
+    .ball.blue { background: radial-gradient(circle at 32% 24%, #9ed0ff, var(--blue) 48%, #1849a9); }
     .ticket {
-      border-top: 1px solid var(--line);
-      padding: 14px 0;
+      border: 1px solid #edf1f7;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 10px;
+      background: linear-gradient(180deg, #fff, #fbfcff);
     }
-    .ticket:first-child { border-top: 0; padding-top: 0; }
+    .ticket:first-child { border-top: 1px solid #edf1f7; padding-top: 14px; }
     .ticket-meta { color: var(--muted); font-size: 13px; margin-top: 8px; }
     table {
       width: 100%;
@@ -171,6 +232,8 @@
     }
     @media (max-width: 840px) {
       .cards, .two, .three { grid-template-columns: 1fr; }
+      .data-console { grid-template-columns: 1fr; }
+      .data-actions { justify-content: flex-start; }
       header { position: static; }
       th { position: static; }
       h1 { font-size: 22px; }
@@ -193,7 +256,19 @@
   </header>
 
   <main class="wrap">
-    <div id="status" class="note">正在加载历史数据...</div>
+    <div class="panel data-console">
+      <div>
+        <div class="eyebrow">DATA CENTER</div>
+        <div id="status">正在加载历史数据...</div>
+        <div id="updateMsg">本地版可手动从 GitHub 拉取最新数据，也可导入 JSON/CSV 数据文件。</div>
+      </div>
+      <div class="data-actions">
+        <button class="primary" id="updateRemote">从 GitHub 更新数据</button>
+        <label class="file-btn">导入数据<input id="importData" type="file" accept=".json,.csv,application/json,text/csv"></label>
+        <button id="restoreData">恢复内置数据</button>
+        <button id="exportData">导出当前数据</button>
+      </div>
+    </div>
 
     <section id="pick" class="active">
       <div class="grid two" style="margin-top:16px">
@@ -287,6 +362,10 @@
     const state = { payload: null, rows: [], historyKeys: new Set(), historyReds: [] };
     const redCols = ["red1", "red2", "red3", "red4", "red5"];
     const blueCols = ["blue1", "blue2"];
+    const DATA_URL = "data/dlt_history.json";
+    const REMOTE_DATA_URL = "https://xiudenbenny.github.io/ruyi-dlt-web/data/dlt_history.json";
+    const STORAGE_KEY = "ruyi-dlt-history-payload";
+    const EMBEDDED_PAYLOAD = null;
 
     const pad = n => String(n).padStart(2, "0");
     const money = n => Number(n || 0).toLocaleString("zh-CN");
@@ -305,6 +384,73 @@
     const range = (start, end) => Array.from({ length: end - start + 1 }, (_, i) => start + i);
     const balls = (nums, color) => nums.map(n => `<span class="ball ${color}">${pad(n)}</span>`).join("");
     const ticketLine = p => `${p.red.map(pad).join(" ")} + ${p.blue.map(pad).join(" ")}`;
+
+    function setUpdateMessage(text, tone = "muted") {
+      const el = document.getElementById("updateMsg");
+      el.className = tone;
+      el.textContent = text;
+    }
+
+    function normalizePayload(input, source = "导入数据") {
+      const records = Array.isArray(input) ? input : input.records;
+      if (!Array.isArray(records) || !records.length) throw new Error("数据为空或格式不正确");
+      const normalized = records.map(row => {
+        const item = { ...row };
+        item.issue = String(item.issue || "").trim().padStart(5, "0");
+        [...redCols, ...blueCols, "pool_money", "first_prize_count", "first_prize_money", "second_prize_count", "second_prize_money", "sales_money"].forEach(key => {
+          item[key] = Number(String(item[key] ?? "0").replace(/,/g, "")) || 0;
+        });
+        item.date = String(item.date || "").trim();
+        return item;
+      }).sort((a, b) => Number(a.issue) - Number(b.issue));
+      const latest = normalized.at(-1);
+      return {
+        generated_at: input.generated_at || new Date().toISOString(),
+        source: input.source || source,
+        source_url: input.source_url || "",
+        count: normalized.length,
+        latest_issue: latest.issue,
+        latest_date: latest.date,
+        records: normalized,
+      };
+    }
+
+    function issueRank(payload) {
+      return Number(payload?.latest_issue || 0);
+    }
+
+    function readStoredPayload() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? normalizePayload(JSON.parse(raw), "浏览器本地缓存") : null;
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function saveStoredPayload(payload) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    }
+
+    function setPayload(payload, sourceLabel, persist = false) {
+      const normalized = normalizePayload(payload, sourceLabel);
+      if (sourceLabel) normalized.source = sourceLabel;
+      state.payload = normalized;
+      state.rows = normalized.records.map(enrich).sort((a, b) => Number(a.issue) - Number(b.issue));
+      buildHistory();
+      renderAll();
+      if (persist) saveStoredPayload(normalized);
+      return normalized;
+    }
+
+    function parseCsv(text) {
+      const lines = text.replace(/^\uFEFF/, "").trim().split(/\r?\n/).filter(Boolean);
+      const headers = lines.shift().split(",").map(x => x.trim());
+      return lines.map(line => {
+        const values = line.split(",");
+        return Object.fromEntries(headers.map((key, i) => [key, values[i] ?? ""]));
+      });
+    }
 
     function enrich(row) {
       const red = redCols.map(k => Number(row[k]));
@@ -418,7 +564,7 @@
       const p = state.payload;
       const latest = state.rows.at(-1);
       document.getElementById("status").innerHTML =
-        `数据已加载：共 <b>${p.count}</b> 期，最新 <b>${p.latest_issue}</b> / <b>${p.latest_date}</b>，来源：${p.source}。`;
+        `数据已加载：共 <b>${p.count}</b> 期，最新 <b>${p.latest_issue}</b> / <b>${p.latest_date}</b>，来源：<b>${p.source}</b>。`;
       document.getElementById("latest").innerHTML =
         `最新一期 <b>${latest.issue}</b>：${balls(latest.red, "red")} ${balls(latest.blue, "blue")}
         <br>奖池：<b>${money(latest.pool_money)}</b> 元，红球和值 ${latest.red_sum}，跨度 ${latest.red_span}。`;
@@ -520,12 +666,63 @@
     }
 
     async function loadData() {
-      const response = await fetch("data/dlt_history.json", { cache: "no-cache" });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      state.payload = await response.json();
-      state.rows = state.payload.records.map(enrich).sort((a, b) => Number(a.issue) - Number(b.issue));
-      buildHistory();
-      renderAll();
+      const stored = readStoredPayload();
+      let base = EMBEDDED_PAYLOAD;
+      if (!base) {
+        const response = await fetch(DATA_URL, { cache: "no-cache" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        base = await response.json();
+      }
+      const chosen = stored && issueRank(stored) >= issueRank(base) ? stored : base;
+      setPayload(chosen, chosen === stored ? "浏览器本地缓存" : undefined, false);
+      if (chosen === stored) {
+        setUpdateMessage(`已使用你手动更新过的数据：最新 ${chosen.latest_issue} / ${chosen.latest_date}。`, "ok");
+      }
+    }
+
+    async function updateFromRemote() {
+      const btn = document.getElementById("updateRemote");
+      btn.disabled = true;
+      setUpdateMessage("正在从 GitHub 拉取最新数据...", "muted");
+      try {
+        const response = await fetch(`${REMOTE_DATA_URL}?t=${Date.now()}`, { cache: "no-cache" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        const updated = setPayload(payload, "GitHub 手动更新", true);
+        setUpdateMessage(`更新成功：最新 ${updated.latest_issue} / ${updated.latest_date}，已保存到本机浏览器。`, "ok");
+      } catch (err) {
+        setUpdateMessage(`从 GitHub 更新失败：${err.message}。可改用“导入数据”。`, "error");
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function importDataFile(file) {
+      const text = await file.text();
+      const payload = file.name.toLowerCase().endsWith(".csv")
+        ? normalizePayload(parseCsv(text), `导入 CSV：${file.name}`)
+        : normalizePayload(JSON.parse(text), `导入 JSON：${file.name}`);
+      const updated = setPayload(payload, payload.source, true);
+      setUpdateMessage(`导入成功：最新 ${updated.latest_issue} / ${updated.latest_date}，已保存到本机浏览器。`, "ok");
+    }
+
+    function restoreBundledData() {
+      localStorage.removeItem(STORAGE_KEY);
+      setUpdateMessage("已清除浏览器缓存数据，正在恢复内置/站点数据...", "muted");
+      loadData().then(() => setUpdateMessage("已恢复默认数据。", "ok")).catch(err => setUpdateMessage(`恢复失败：${err.message}`, "error"));
+    }
+
+    function exportCurrentData() {
+      if (!state.payload) return;
+      const blob = new Blob([JSON.stringify(state.payload, null, 2)], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `dlt_history_${state.payload.latest_issue || "data"}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
     }
 
     document.querySelectorAll("nav button").forEach(btn => {
@@ -571,6 +768,15 @@
 
     document.getElementById("issueSearch").addEventListener("input", renderHistory);
     document.getElementById("limitRows").addEventListener("input", renderHistory);
+    document.getElementById("updateRemote").addEventListener("click", updateFromRemote);
+    document.getElementById("restoreData").addEventListener("click", restoreBundledData);
+    document.getElementById("exportData").addEventListener("click", exportCurrentData);
+    document.getElementById("importData").addEventListener("change", event => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      importDataFile(file).catch(err => setUpdateMessage(`导入失败：${err.message}`, "error"));
+      event.target.value = "";
+    });
 
     loadData().catch(err => {
       document.getElementById("status").innerHTML =
