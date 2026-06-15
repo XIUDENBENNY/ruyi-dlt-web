@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>如意大乐透神机妙算系统</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --line: #d9dee8;
+      --red: #d92d20;
+      --blue: #1570ef;
+      --brand: #246bfe;
+      --soft: #eef4ff;
+      --ok: #067647;
+      --warn: #b54708;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.5;
+    }
+    header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    .title {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    h1 { margin: 0; font-size: 26px; }
+    .sub { color: var(--muted); font-size: 14px; }
+    nav {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    button, select, input {
+      font: inherit;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      padding: 9px 12px;
+    }
+    button {
+      cursor: pointer;
+      font-weight: 650;
+    }
+    button.primary, nav button.active {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+    main { padding: 22px 20px 40px; }
+    section { display: none; }
+    section.active { display: block; }
+    .grid { display: grid; gap: 14px; }
+    .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .two { grid-template-columns: 1fr 1fr; }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .metric .label { color: var(--muted); font-size: 13px; }
+    .metric .value { font-size: 23px; font-weight: 800; margin-top: 4px; }
+    h2, h3 { margin: 0 0 12px; }
+    .note {
+      background: var(--soft);
+      border: 1px solid #c7d7fe;
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #183b78;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .toolbar label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      min-width: 150px;
+    }
+    .ball {
+      display: inline-flex;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      margin: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .ball.red { background: var(--red); }
+    .ball.blue { background: var(--blue); }
+    .ticket {
+      border-top: 1px solid var(--line);
+      padding: 14px 0;
+    }
+    .ticket:first-child { border-top: 0; padding-top: 0; }
+    .ticket-meta { color: var(--muted); font-size: 13px; margin-top: 8px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    th { color: var(--muted); background: #fafbff; position: sticky; top: 92px; }
+    .table-box { overflow: auto; max-height: 620px; }
+    .freq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+      gap: 8px;
+    }
+    .freq {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      background: #fff;
+    }
+    .freq .num { font-weight: 800; }
+    .bar {
+      height: 7px;
+      background: #edf1f7;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 7px;
+    }
+    .bar span { display: block; height: 100%; background: var(--brand); }
+    .muted { color: var(--muted); }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .error { color: #b42318; }
+    .copy-box {
+      width: 100%;
+      min-height: 92px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      font-family: Consolas, monospace;
+    }
+    @media (max-width: 840px) {
+      .cards, .two, .three { grid-template-columns: 1fr; }
+      header { position: static; }
+      th { position: static; }
+      h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="title">
+        <h1>如意大乐透神机妙算系统</h1>
+        <span class="sub">GitHub Pages 静态版 · Made By Benny</span>
+      </div>
+      <nav>
+        <button class="active" data-tab="pick">智能选号</button>
+        <button data-tab="analysis">数据分析</button>
+        <button data-tab="history">历史查询</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="status" class="note">正在加载历史数据...</div>
+
+    <section id="pick" class="active">
+      <div class="grid two" style="margin-top:16px">
+        <div class="panel">
+          <h2>策略配置</h2>
+          <div class="toolbar">
+            <label>选择策略
+              <select id="strategy">
+                <option value="smart">智能策略：奖池分段 + 防重</option>
+                <option value="random">随机选号</option>
+                <option value="hot">热号优先</option>
+                <option value="cold">冷号优先</option>
+              </select>
+            </label>
+            <label>生成注数
+              <input id="count" type="number" min="1" max="20" value="5">
+            </label>
+            <label>回看期数
+              <input id="lookback" type="number" min="20" max="1000" value="100">
+            </label>
+            <label>防重检测
+              <select id="avoid">
+                <option value="yes">排除历史完全重复</option>
+                <option value="strict">排除红球 4 个以上相同</option>
+                <option value="no">不检测</option>
+              </select>
+            </label>
+            <button class="primary" id="generate">开始计算</button>
+          </div>
+          <div id="latest" class="note" style="margin-top:14px"></div>
+        </div>
+        <div class="panel">
+          <h2>推荐结果</h2>
+          <div id="results" class="muted">点击“开始计算”生成号码。</div>
+          <textarea id="copyText" class="copy-box" readonly style="display:none;margin-top:12px"></textarea>
+          <button id="copyBtn" style="display:none;margin-top:10px">复制结果</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="analysis">
+      <div class="grid cards" id="cards" style="margin-top:16px"></div>
+      <div class="grid two" style="margin-top:14px">
+        <div class="panel">
+          <h2>奖池分段规律</h2>
+          <div id="segments"></div>
+        </div>
+        <div class="panel">
+          <h2>近 30 期形态摘要</h2>
+          <div id="shapeSummary"></div>
+        </div>
+      </div>
+      <div class="grid two" style="margin-top:14px">
+        <div class="panel">
+          <h2>红球出现频率</h2>
+          <div id="redFreq" class="freq-grid"></div>
+        </div>
+        <div class="panel">
+          <h2>蓝球出现频率</h2>
+          <div id="blueFreq" class="freq-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="history">
+      <div class="panel" style="margin-top:16px">
+        <h2>历史数据查询</h2>
+        <div class="toolbar">
+          <label>搜索期号
+            <input id="issueSearch" placeholder="例如 26027">
+          </label>
+          <label>显示条数
+            <input id="limitRows" type="number" min="20" max="1000" value="120">
+          </label>
+        </div>
+        <div class="table-box" style="margin-top:12px">
+          <table>
+            <thead>
+              <tr>
+                <th>期号</th><th>日期</th><th>开奖号码</th><th>奖池</th><th>一等注数</th><th>二等奖注数</th><th>销量</th>
+              </tr>
+            </thead>
+            <tbody id="historyRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = { payload: null, rows: [], historyKeys: new Set(), historyReds: [] };
+    const redCols = ["red1", "red2", "red3", "red4", "red5"];
+    const blueCols = ["blue1", "blue2"];
+
+    const pad = n => String(n).padStart(2, "0");
+    const money = n => Number(n || 0).toLocaleString("zh-CN");
+    const avg = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+    const std = arr => {
+      const m = avg(arr);
+      return Math.sqrt(avg(arr.map(x => Math.pow(x - m, 2)))) || 0;
+    };
+    const sample = (pool, size) => {
+      const copy = [...pool], out = [];
+      while (out.length < size && copy.length) {
+        out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+      }
+      return out.sort((a, b) => a - b);
+    };
+    const range = (start, end) => Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    const balls = (nums, color) => nums.map(n => `<span class="ball ${color}">${pad(n)}</span>`).join("");
+    const ticketLine = p => `${p.red.map(pad).join(" ")} + ${p.blue.map(pad).join(" ")}`;
+
+    function enrich(row) {
+      const red = redCols.map(k => Number(row[k]));
+      const blue = blueCols.map(k => Number(row[k]));
+      return {
+        ...row,
+        red,
+        blue,
+        red_sum: red.reduce((a, b) => a + b, 0),
+        blue_sum: blue.reduce((a, b) => a + b, 0),
+        red_span: Math.max(...red) - Math.min(...red),
+        red_odd_count: red.filter(n => n % 2).length,
+        red_big_count: red.filter(n => n > 18).length,
+        blue_big_count: blue.filter(n => n > 6).length,
+      };
+    }
+
+    function poolSegment(pool) {
+      if (pool < 500000000) return "低奖池 <5亿";
+      if (pool < 1000000000) return "中奖池 5-10亿";
+      return "高奖池 >10亿";
+    }
+
+    function buildHistory() {
+      state.historyKeys.clear();
+      state.historyReds = [];
+      for (const row of state.rows) {
+        const red = [...row.red].sort((a, b) => a - b);
+        const blue = [...row.blue].sort((a, b) => a - b);
+        state.historyKeys.add(`${red.join(",")}|${blue.join(",")}`);
+        state.historyReds.push(new Set(red));
+      }
+    }
+
+    function isRepeat(red, blue) {
+      return state.historyKeys.has(`${[...red].sort((a, b) => a - b).join(",")}|${[...blue].sort((a, b) => a - b).join(",")}`);
+    }
+
+    function isTooSimilar(red) {
+      const rset = new Set(red);
+      return state.historyReds.some(hist => [...rset].filter(n => hist.has(n)).length > 3);
+    }
+
+    function frequency(rows, cols, maxNum) {
+      const counts = new Map(range(1, maxNum).map(n => [n, 0]));
+      rows.forEach(row => cols.forEach(k => counts.set(Number(row[k]), (counts.get(Number(row[k])) || 0) + 1)));
+      return [...counts.entries()].map(([num, count]) => ({ num, count }));
+    }
+
+    function makeTicket(red, blue, type) {
+      return {
+        red,
+        blue,
+        type,
+        red_sum: red.reduce((a, b) => a + b, 0),
+        red_span: Math.max(...red) - Math.min(...red),
+        red_odd: red.filter(n => n % 2).length,
+        blue_sum: blue.reduce((a, b) => a + b, 0),
+      };
+    }
+
+    function randomSelect(count, avoidMode) {
+      const out = [];
+      let attempts = 0;
+      while (out.length < count && attempts++ < 50000) {
+        const red = sample(range(1, 35), 5);
+        const blue = sample(range(1, 12), 2);
+        if (avoidMode !== "no" && isRepeat(red, blue)) continue;
+        if (avoidMode === "strict" && isTooSimilar(red)) continue;
+        out.push(makeTicket(red, blue, "随机选号"));
+      }
+      return out;
+    }
+
+    function hotColdSelect(count, lookback, hot) {
+      const recent = state.rows.slice(-lookback);
+      const redFreq = frequency(recent, redCols, 35).sort((a, b) => hot ? b.count - a.count : a.count - b.count);
+      const blueFreq = frequency(recent, blueCols, 12).sort((a, b) => hot ? b.count - a.count : a.count - b.count);
+      const redPool = redFreq.slice(0, 15).map(x => x.num);
+      const bluePool = blueFreq.slice(0, 6).map(x => x.num);
+      return range(1, count).map(() => makeTicket(
+        sample(redPool, 5),
+        sample(bluePool, 2),
+        `${hot ? "热号" : "冷号"}策略（近 ${lookback} 期）`
+      ));
+    }
+
+    function smartSelect(count, avoidMode) {
+      const latest = state.rows.at(-1);
+      const seg = poolSegment(Number(latest.pool_money));
+      let relevant = state.rows.filter(row => poolSegment(Number(row.pool_money)) === seg);
+      if (relevant.length < 50) relevant = state.rows;
+      const sums = relevant.map(row => row.red_sum);
+      const minSum = avg(sums) - 1.5 * std(sums);
+      const maxSum = avg(sums) + 1.5 * std(sums);
+      const out = [];
+      let attempts = 0;
+      while (out.length < count && attempts++ < 120000) {
+        const red = sample(range(1, 35), 5);
+        const blue = sample(range(1, 12), 2);
+        const sum = red.reduce((a, b) => a + b, 0);
+        if (avoidMode !== "no" && isRepeat(red, blue)) continue;
+        if (avoidMode !== "no" && isTooSimilar(red)) continue;
+        if (sum < minSum || sum > maxSum) continue;
+        out.push(makeTicket(red, blue, `智能策略（${seg}）`));
+      }
+      return out;
+    }
+
+    function renderStatus() {
+      const p = state.payload;
+      const latest = state.rows.at(-1);
+      document.getElementById("status").innerHTML =
+        `数据已加载：共 <b>${p.count}</b> 期，最新 <b>${p.latest_issue}</b> / <b>${p.latest_date}</b>，来源：${p.source}。`;
+      document.getElementById("latest").innerHTML =
+        `最新一期 <b>${latest.issue}</b>：${balls(latest.red, "red")} ${balls(latest.blue, "blue")}
+        <br>奖池：<b>${money(latest.pool_money)}</b> 元，红球和值 ${latest.red_sum}，跨度 ${latest.red_span}。`;
+    }
+
+    function renderCards() {
+      const latest = state.rows.at(-1);
+      const last30 = state.rows.slice(-30);
+      const cards = [
+        ["总期数", `${state.rows.length} 期`],
+        ["最新开奖", `${latest.issue} / ${latest.date}`],
+        ["当前奖池", `${money(latest.pool_money)} 元`],
+        ["近30期红球均值", avg(last30.map(r => r.red_sum)).toFixed(1)],
+      ];
+      document.getElementById("cards").innerHTML = cards.map(([label, value]) =>
+        `<div class="panel metric"><div class="label">${label}</div><div class="value">${value}</div></div>`
+      ).join("");
+    }
+
+    function renderSegments() {
+      const names = ["低奖池 <5亿", "中奖池 5-10亿", "高奖池 >10亿"];
+      const rows = names.map(name => {
+        const part = state.rows.filter(row => poolSegment(Number(row.pool_money)) === name);
+        return `<tr><td>${name}</td><td>${part.length}</td><td>${avg(part.map(r => Number(r.first_prize_count))).toFixed(2)}</td><td>${avg(part.map(r => r.red_sum)).toFixed(1)}</td><td>${avg(part.map(r => r.red_span)).toFixed(1)}</td></tr>`;
+      }).join("");
+      document.getElementById("segments").innerHTML =
+        `<table><thead><tr><th>分段</th><th>期数</th><th>平均一等注数</th><th>红球和值</th><th>红球跨度</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    function renderShape() {
+      const last30 = state.rows.slice(-30);
+      const redSum = avg(last30.map(r => r.red_sum));
+      const redSpan = avg(last30.map(r => r.red_span));
+      const blueSum = avg(last30.map(r => r.blue_sum));
+      const oddMode = mode(last30.map(r => r.red_odd_count));
+      document.getElementById("shapeSummary").innerHTML =
+        `<p>近 30 期红球和值平均 <b>${redSum.toFixed(1)}</b>，走势${redSum > 90 ? "<span class='warn'>偏大</span>" : "<span class='ok'>偏小或均衡</span>"}。</p>
+         <p>红球跨度平均 <b>${redSpan.toFixed(1)}</b>，奇偶重心多为 <b>${oddMode} 奇 ${5 - oddMode} 偶</b>。</p>
+         <p>蓝球和值平均 <b>${blueSum.toFixed(1)}</b>。</p>`;
+    }
+
+    function mode(values) {
+      const counts = new Map();
+      values.forEach(v => counts.set(v, (counts.get(v) || 0) + 1));
+      return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 0;
+    }
+
+    function renderFrequency() {
+      const render = (target, freq, colorClass) => {
+        const max = Math.max(...freq.map(x => x.count), 1);
+        document.getElementById(target).innerHTML = freq.map(x =>
+          `<div class="freq"><div><span class="num">${pad(x.num)}</span> <span class="muted">${x.count}</span></div><div class="bar"><span style="width:${x.count / max * 100}%;background:${colorClass === "red" ? "var(--red)" : "var(--blue)"}"></span></div></div>`
+        ).join("");
+      };
+      render("redFreq", frequency(state.rows, redCols, 35), "red");
+      render("blueFreq", frequency(state.rows, blueCols, 12), "blue");
+    }
+
+    function renderHistory() {
+      const q = document.getElementById("issueSearch").value.trim();
+      const limit = Number(document.getElementById("limitRows").value || 120);
+      const rows = [...state.rows].reverse().filter(row => !q || String(row.issue).includes(q)).slice(0, limit);
+      document.getElementById("historyRows").innerHTML = rows.map(row =>
+        `<tr>
+          <td>${row.issue}</td><td>${row.date}</td><td>${balls(row.red, "red")} ${balls(row.blue, "blue")}</td>
+          <td>${money(row.pool_money)}</td><td>${row.first_prize_count}</td><td>${row.second_prize_count}</td><td>${money(row.sales_money)}</td>
+        </tr>`
+      ).join("");
+    }
+
+    function renderAll() {
+      renderStatus();
+      renderCards();
+      renderSegments();
+      renderShape();
+      renderFrequency();
+      renderHistory();
+    }
+
+    function showResults(results) {
+      const box = document.getElementById("results");
+      if (!results.length) {
+        box.innerHTML = "<span class='error'>未能生成号码，请减少防重强度后重试。</span>";
+        return;
+      }
+      box.innerHTML = results.map((p, i) =>
+        `<div class="ticket">
+          <b>第 ${i + 1} 注</b> <span class="muted">${p.type}</span><br>
+          ${balls(p.red, "red")} ${balls(p.blue, "blue")}
+          <div class="ticket-meta">红球和值 ${p.red_sum}，跨度 ${p.red_span}，奇偶比 ${p.red_odd}:${5 - p.red_odd}，蓝球和值 ${p.blue_sum}</div>
+        </div>`
+      ).join("");
+      const text = results.map((p, i) => `第${i + 1}注 ${ticketLine(p)}  ${p.type}`).join("\n");
+      const area = document.getElementById("copyText");
+      const btn = document.getElementById("copyBtn");
+      area.style.display = "block";
+      btn.style.display = "inline-block";
+      area.value = text;
+    }
+
+    async function loadData() {
+      const response = await fetch("data/dlt_history.json", { cache: "no-cache" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      state.payload = await response.json();
+      state.rows = state.payload.records.map(enrich).sort((a, b) => Number(a.issue) - Number(b.issue));
+      buildHistory();
+      renderAll();
+    }
+
+    document.querySelectorAll("nav button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("nav button").forEach(x => x.classList.remove("active"));
+        document.querySelectorAll("section").forEach(x => x.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    document.getElementById("generate").addEventListener("click", () => {
+      const strategy = document.getElementById("strategy").value;
+      const count = Math.max(1, Math.min(20, Number(document.getElementById("count").value || 5)));
+      const lookback = Math.max(20, Math.min(1000, Number(document.getElementById("lookback").value || 100)));
+      const avoid = document.getElementById("avoid").value;
+      const results =
+        strategy === "smart" ? smartSelect(count, avoid) :
+        strategy === "hot" ? hotColdSelect(count, lookback, true) :
+        strategy === "cold" ? hotColdSelect(count, lookback, false) :
+        randomSelect(count, avoid);
+      showResults(results);
+    });
+
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      const text = document.getElementById("copyText").value;
+      await navigator.clipboard.writeText(text);
+      document.getElementById("copyBtn").textContent = "已复制";
+      setTimeout(() => document.getElementById("copyBtn").textContent = "复制结果", 1200);
+    });
+
+    document.getElementById("issueSearch").addEventListener("input", renderHistory);
+    document.getElementById("limitRows").addEventListener("input", renderHistory);
+
+    loadData().catch(err => {
+      document.getElementById("status").innerHTML =
+        `<span class="error">数据加载失败：${err.message}。如果是本地双击打开，请用 GitHub Pages 或本地静态服务访问。</span>`;
+    });
+  </script>
+</body>
+</html>
